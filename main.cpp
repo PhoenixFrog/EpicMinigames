@@ -2,9 +2,10 @@
 #include <iostream>
 #include <limits>
 #include <string>
+#include <ctime>
 using namespace std;
 
-void FizzBuzz(bool inputMode)
+void FizzBuzz(const bool inputMode)
 {
     int i;
     int limit;
@@ -15,6 +16,7 @@ void FizzBuzz(bool inputMode)
         int incorrect = 0;
         string answer;
         cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        cout << "Go!" << endl;
         for (i = 1; i < limit + 1; i++)
         {
             string correctAnswer;
@@ -59,6 +61,43 @@ void FizzBuzz(bool inputMode)
     }
 }
 
+void RandomNumberGuesser()
+{
+    srand(time(nullptr));
+    int guess;
+    int guesses = 0;
+    int number = rand() % 100;
+    bool guessed = false;
+
+    cout << "Take a guess!" << endl;
+    while (!guessed)
+    {
+        cin.ignore(numeric_limits<streamsize>::max(),'\n');
+
+        cin >> guess;
+
+        if (guess < 0 | guess > 100) cout << "That guess is out of bounds!" << endl;
+        else if (guess < number)
+        {
+            cout << "Higher" << endl;
+            ++guesses;
+        }
+        else if (guess > number)
+        {
+            cout << "Lower" << endl;
+            ++guesses;
+        }
+        else
+        {
+            guessed = true;
+            ++guesses;
+        }
+    }
+    cout << number << " is correct!" << endl;
+    cout << "It took you " << guesses << " guesses" << endl;
+
+}
+
 int main()
 {
     bool playing = true;
@@ -66,8 +105,10 @@ int main()
     {
         int game;
         cout << "what would you like to play?" << endl;
-        cout << "1.FizzBuzz" << endl;
+        cout << "1.FizzBuzz" << endl <<
+            "2.Random Number Guesser" << endl;
         cin >> game;
+
         if (game == 1)
         {
             int mode;
@@ -76,10 +117,18 @@ int main()
             if (mode ==1 ) FizzBuzz(true);
             else if (mode == 2) FizzBuzz(false);
         }
+        else if (game == 2)
+        {
+            RandomNumberGuesser();
+        }
         char repeat;
         cout << "Would you like to play another game? [y/n]" << endl;
         cin >> repeat;
-        if (tolower(repeat) == 'n') playing = false;
+        if (tolower(repeat) == 'n')
+        {
+            cout << "Thanks for playing!" << endl;
+            playing = false;
+        }
     }
     return 0;
 }

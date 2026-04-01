@@ -3,6 +3,7 @@
 #include <limits>
 #include <string>
 #include <ctime>
+//#include <cctype>
 using namespace std;
 
 void FizzBuzz(const bool inputMode)
@@ -24,6 +25,7 @@ void FizzBuzz(const bool inputMode)
             getline(cin, answer);
             answer.erase(remove_if(answer.begin(), answer.end(), [](char c)
             {return c == ' ';}), answer.end());
+            transform(answer.begin(), answer.end(), answer.begin(), ::tolower );
             //cout << answer << endl;
 
             if (i % 3 == 0 and i % 5 == 0)
@@ -45,6 +47,7 @@ void FizzBuzz(const bool inputMode)
         cout << "You got " << incorrect << " wrong answers." << endl;
         if (percent > 33) cout << "how are you BAD at FizzBuzz???" << endl;
         else if (percent == 0) cout << "Perfect score!" << endl;
+        else cout << "Pretty good!" << endl;
     }
     else //auto mode
     {
@@ -70,13 +73,14 @@ void RandomNumberGuesser()
     bool guessed = false;
 
     cout << "Take a guess!" << endl;
+    cin.ignore(numeric_limits<streamsize>::max(),'\n');
     while (!guessed)
     {
         cin.ignore(numeric_limits<streamsize>::max(),'\n');
 
         cin >> guess;
 
-        if (guess < 0 | guess > 100) cout << "That guess is out of bounds!" << endl;
+        if (guess < 0 || guess > 100) cout << "That guess is out of bounds!" << endl;
         else if (guess < number)
         {
             cout << "Higher" << endl;
